@@ -6,7 +6,8 @@ account using email address:
 
 {{ email }}
 
-However, an account using that email address already exists. You can safely ignore this message if you have signed-up using a different authentication method.
+However, an account using that email address already exists.
+You can safely ignore this message if you have signed-up using a different authentication method.
 
 {% endblocktrans %}{% endautoescape %}{% endblock content %}
 
