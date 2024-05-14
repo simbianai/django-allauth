@@ -599,7 +599,10 @@ class DefaultAccountAdapter(BaseAdapter):
             "signup_url": signup_url,
             "password_reset_url": password_reset_url,
         }
-        self.send_mail("account/email/account_already_exists", email, ctx)
+        if app_settings.SIGNUP_WITH_PASSWORD:
+            self.send_mail("account/email/account_already_exists", email, ctx)
+        else:
+            self.send_mail("account/email/account_already_exists_nopass", email, ctx)
 
     def send_confirmation_mail(self, request, emailconfirmation, signup):
         activate_url = self.get_email_confirmation_url(request, emailconfirmation)
