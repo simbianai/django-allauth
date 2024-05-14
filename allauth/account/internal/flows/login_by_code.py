@@ -24,8 +24,13 @@ def request_login_code(request, email):
         "email": email,
         "failed_attempts": 0,
     }
+
+    email_sent = messages.SUCCESS
     if not users:
-        send_unknown_account_mail(request, email)
+        if app_settings.EMAIL_UNKNOWN_ACCOUNTS:
+            send_unknown_account_mail(request, email)
+        else:
+            email_sent = messages.ERROR
     else:
         user = users[0]
         code = adapter.generate_login_code()
@@ -39,12 +44,22 @@ def request_login_code(request, email):
         )
 
     request.session[LOGIN_CODE_SESSION_KEY] = pending_login
-    adapter.add_message(
-        request,
-        messages.SUCCESS,
-        "account/messages/login_code_sent.txt",
-        {"email": email},
-    )
+    if email_sent == messages.SUCCESS:
+        adapter.add_message(
+            request,
+            email_sent,
+            "account/messages/login_code_sent.txt",
+            {"email": email},
+        )
+        return True
+    else:
+        adapter.add_message(
+            request,
+            email_sent,
+            "account/messages/login_code_failed.txt",
+            {"email": email},
+        )
+        return False
 
 
 def get_pending_login(request, peek=False):
