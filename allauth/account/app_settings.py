@@ -428,6 +428,10 @@ class AppSettings(object):
     def LOGIN_BY_CODE_TIMEOUT(self):
         return self._setting("LOGIN_BY_CODE_TIMEOUT", 3 * 60)
 
+    @property
+    def SIGNUP_WITH_PASSWORD(self):
+        return self._setting("SIGNUP_WITH_PASSWORD", True)
+
 
 _app_settings = AppSettings("ACCOUNT_")
 
