@@ -1,0 +1,13 @@
+{% extends "account/email/base_message.txt" %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}{% blocktrans %}You are receiving this email because you or someone else tried to signup for an
+account using email address:
+
+{{ email }}
+
+However, an account using that email address already exists.
+You can safely ignore this message if you have signed-up using a different authentication method.
+
+{% endblocktrans %}{% endautoescape %}{% endblock content %}
+
